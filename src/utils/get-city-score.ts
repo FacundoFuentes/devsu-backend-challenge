@@ -26,5 +26,5 @@ export function formatAndScore(cities, query) {
     });
   });
 
-  return suggestions;
+  return suggestions.sort((a, b) => b.score - a.score);
 }
