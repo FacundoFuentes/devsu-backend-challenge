@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 import { CreateCityDto } from './dto/create-city.dto';
 import { City, CityDocument } from './schemas/cities.schema';
 import { csvToJson } from 'src/utils/csv-to-json';
+import { formatAndScore } from 'src/utils/get-city-score';
 
 @Injectable()
 export class CitiesService {
@@ -28,6 +29,13 @@ export class CitiesService {
       name: { $regex: city },
     });
 
-    return citiesFound;
+    const query = {
+      name: city,
+      latitude,
+      longitude,
+    };
+    const result = formatAndScore(citiesFound, query);
+
+    return result;
   }
 }
