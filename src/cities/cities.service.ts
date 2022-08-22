@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateCityDto } from './dto/create-city.dto';
 import { City, CityDocument } from './schemas/cities.schema';
+import { csvToJson } from 'src/utils/csv-to-json';
 
 @Injectable()
 export class CitiesService {
@@ -11,5 +12,14 @@ export class CitiesService {
   async createCity(city: CreateCityDto): Promise<CityDocument> {
     const newCity = new this.cityModel(city);
     return newCity.save();
+  }
+
+  async bulkCreate() {
+    const citiesJson = await csvToJson();
+    this.cityModel.insertMany(citiesJson, (err, documents) => {
+      if (err) throw err;
+      else console.log(`Documents inserted correctly, ${documents.length}`);
+    });
+    return citiesJson;
   }
 }
