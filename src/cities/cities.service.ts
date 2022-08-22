@@ -22,4 +22,12 @@ export class CitiesService {
     });
     return citiesJson;
   }
+
+  async findSuggestions(city: string, latitude: string, longitude: string) {
+    const citiesFound = await this.cityModel.find({
+      name: { $regex: city },
+    });
+
+    return citiesFound;
+  }
 }

@@ -1,4 +1,5 @@
-import { Body, Controller, Get, Post, Res } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, Res } from '@nestjs/common';
+import { response } from 'express';
 import { CitiesService } from './cities.service';
 import { CreateCityDto } from './dto/create-city.dto';
 import { CityDocument } from './schemas/cities.schema';
@@ -21,6 +22,25 @@ export class CitiesController {
     try {
       const citiesDidCreate = await this.citiesService.bulkCreate();
       return response.status(200).json(citiesDidCreate);
+    } catch (error) {
+      return error;
+    }
+  }
+
+  @Get('/suggestions')
+  async findSuggestion(
+    @Res() response,
+    @Query('city') city: string,
+    @Query('latitude') latitude: string,
+    @Query('longitude') longitude: string,
+  ) {
+    try {
+      const citiesSuggested = await this.citiesService.findSuggestions(
+        city,
+        latitude,
+        longitude,
+      );
+      return response.status(200).json(citiesSuggested);
     } catch (error) {
       return error;
     }
