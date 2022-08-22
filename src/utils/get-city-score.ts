@@ -1,8 +1,6 @@
 import { quickScore } from 'quick-score';
 
 export function formatAndScore(cities, query) {
-  console.log(cities, query);
-
   const suggestions = [];
   let finalScore = 0;
   cities.map((city) => {
