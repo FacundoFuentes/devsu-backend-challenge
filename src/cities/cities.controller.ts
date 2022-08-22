@@ -1,5 +1,4 @@
 import { Body, Controller, Get, Post, Query, Res } from '@nestjs/common';
-import { response } from 'express';
 import { CitiesService } from './cities.service';
 import { CreateCityDto } from './dto/create-city.dto';
 import { CityDocument } from './schemas/cities.schema';
@@ -40,7 +39,7 @@ export class CitiesController {
         latitude,
         longitude,
       );
-      return response.status(200).json(citiesSuggested);
+      return response.status(200).json({ suggestions: citiesSuggested });
     } catch (error) {
       return error;
     }
